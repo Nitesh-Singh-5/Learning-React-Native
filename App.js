@@ -61,7 +61,10 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'stretch',
   },
-
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
 });
 
 
@@ -133,11 +136,18 @@ const DisplayAnImageWithStyle = () => {
         style={styles.stretch}
         source={require('./assets/icon.png')}
       />
+      <Image
+        style={styles.tinyLogo}
+        source={{
+          uri: 'https://reactnative.dev/img/tiny_logo.png',
+        }}
+      />
     </View>
   );
 }
 
 /*          APP Function       */
+
 
 export default function App() {
   const disp = ['eat', 'code', 'sleep']
@@ -158,7 +168,7 @@ export default function App() {
       <MyData name="Ramesh" status="Single" />
       <MyData name="Suresh" status="Commited" /> */}
       <MyData />
-      <ButtonDetail />
+      {/* <ButtonDetail /> */}
       <DisplayAnImageWithStyle />
     </View>
   );
