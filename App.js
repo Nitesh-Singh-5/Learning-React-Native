@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, SafeAreaView, Image, FlatList, TouchableOpacity, ScrollView, Modal, Pressable } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Button, Alert, SafeAreaView, Image, FlatList, TouchableOpacity, ScrollView, Modal, Pressable } from 'react-native';
 
 /*****************        Components         ********************/
 class MyData extends React.Component {
@@ -240,7 +240,42 @@ const PressabeComp = () => {
     </View>
   );
 };
+/*          Fetch Api          */
 
+const FetchAPI = () => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const getMovies = async () => {
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+      const json = await response.json();
+      setData(json.movies);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+
+  return (
+    <View style={{ flex: 1, padding: 24 }}>
+      {isLoading ? <ActivityIndicator /> : (
+        <FlatList
+          data={data}
+          keyExtractor={({ id }, index) => id}
+          renderItem={({ item }) => (
+            <Text>{item.title}, {item.releaseYear}</Text>
+          )}
+        />
+      )}
+    </View>
+  );
+};
 
 
 /*          APP Function       */
@@ -270,6 +305,7 @@ export default function App() {
         <FlatlistDetail />
         <ModalDetail />
         <PressabeComp />
+        <FetchAPI />
       </View>
     </ScrollView>
   );
